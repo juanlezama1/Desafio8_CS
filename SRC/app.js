@@ -8,6 +8,7 @@ import { cartModel } from './models/carts.js'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
+import { userModel } from './models/users.js'
 
 const my_app = express ()
 const PORT = 8080
@@ -43,8 +44,8 @@ const my_server = my_app.listen(PORT, () => {
     console.log(`Escuchando solicitudes en el puerto ${PORT} ...`)
 })
 
-// Aclaración: Ya dejé la DB cargada con 10 productos y 3 carritos de antemano
-// Dejo comentado el código adjunto donde se cargaron los productos/carritos para evitar que se carguen de nuevo
+// Aclaración: Ya dejé la DB cargada con 10 productos, 4 usuarios y 3 carritos de antemano
+// Dejo comentado el código adjunto donde se cargaron los productos/carritos/usuarios para evitar que se carguen de nuevo
 
 // 1) Código que carga la DB con los productos:
 
@@ -215,3 +216,46 @@ const my_server = my_app.listen(PORT, () => {
 // cargar_db2()
 // .then(() => console.log("Cargada la DB con los carritos!"))
 // .catch(() => console.log("Error al cargar la DB con los carritos!"))
+
+// 3) Código que carga la DB con los usuarios:
+
+// const cargar_db3 = async () => {
+//     await userModel.insertMany([
+//         {
+//             "first_name": "Juan Pablo",
+//             "last_name": "Lezama",
+//             "age": 31,
+//             "email": "juanpablolezama@gmail.com",
+//             "password": "coderhousecoderhouse",
+//             "category": "Standard_User"
+//         },
+//         {
+//             "first_name": "Darío Nahuel",
+//             "last_name": "López",
+//             "age": 27,
+//             "email": "darionahuellopez@gmail.com",
+//             "password": "passwordpassword",
+//             "category": "Admin"
+//         },
+//         {
+//             "first_name": "María Agustina",
+//             "last_name": "García",
+//             "age": 28,
+//             "email": "mariaagustinagarcia@yahoo.com",
+//             "password": "123123123",
+//             "category": "Standard_User"
+//         },
+//         {
+//             "first_name": "Mariana Nicole",
+//             "last_name": "Álvarez",
+//             "age": 41,
+//             "email": "mariananicolealvarez@hotmail.com",
+//             "password": "abc123def456",
+//             "category": "Admin"
+//         }
+//     ])
+// }
+
+// cargar_db3()
+// .then(() => console.log("Cargada la DB con los usuarios!"))
+// .catch(() => console.log("Error al cargar la DB con los usuarios!"))
