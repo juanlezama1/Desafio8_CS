@@ -7,6 +7,7 @@ import { productModel } from './models/products.js'
 import { cartModel } from './models/carts.js'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
+import MongoStore from 'connect-mongo'
 
 const my_app = express ()
 const PORT = 8080
@@ -16,14 +17,20 @@ mongoose.connect("mongodb+srv://lezamaj:indexport.2011@cluster0.r9uoba0.mongodb.
     .then(() => console.log("Conectado a la DB!"))
     .catch(error => console.log("Error al conectarse a la DB: ", error))
 
-// Rutas
+// Middlewares
 my_app.use(express.json())
 my_app.use(cookieParser("Clave Secreta"))
 my_app.use(session({
-    secret: 'PalabraSecreta', // Clave que se utiliza para guardar la sesión
-    resave: true, 
+    secret: 'ClaveSecreta',
+    resave: true,
+    store: MongoStore.create({
+        mongoUrl: "mongodb+srv://lezamaj:indexport.2011@cluster0.r9uoba0.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Desafio6",
+        ttl: 2*60*60 // 2 Horas
+    }),
     saveUninitialized: true
 }))
+
+// Rutas
 my_app.use('/', indexRouter)
 
 // Implementación de Handlebars (motor de plantillas)
