@@ -34,6 +34,30 @@ sessionsRouter.post('/login', async (req, res) => {
     }
 })
 
+// Ruta para registrar un usuario.
+sessionsRouter.post('/register', async (req, res) => {
+    try {
+        const {first_name, last_name, age, email, password} = req.body
+        const user = await userModel.findOne({email: email})
 
+        if (user)
+
+        {
+            res.status(400).send("Correo electrónico ya registrado!")
+            console.log("Intento de registro con correo ya cargado")
+            return
+        }
+
+        await userModel.create({first_name, last_name, age, email, password}) 
+        res.status(200).send("Usuario creado exitosamente!")
+        console.log("Usuario registrado en DB!")
+    }
+
+    catch (error)
+
+    {
+        console.log("Error al registrar usuario!")
+    }
+})
 
 export default sessionsRouter
