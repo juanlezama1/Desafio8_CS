@@ -17,8 +17,8 @@ sessionsRouter.post('/login', async (req, res) => {
         user && (user.password = password)? 
         (
             req.session.email = email,
-            res.status(200).send("Usuario logueado exitosamente!"),
-            console.log("Logueo de usuario exitoso!")
+            console.log("Logueo de usuario exitoso!"),
+            res.status(200).redirect('/products')
         ):
 
         (

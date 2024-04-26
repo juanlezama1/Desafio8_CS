@@ -1,10 +1,45 @@
 import { Router } from "express"
 import { productModel } from "../models/products.js"
+import { userModel } from "../models/users.js"
 
 const productsRouter = Router ()
 
-// LECTURA DE TODOS LOS PRODUCTOS (SÓLO DEVUELVE EL PAGINATION SEGÚN CONSIGNA DEL TP)
+// LECTURA DE TODOS LOS PRODUCTOS
 productsRouter.get('/', async (req, res) => {
+    const {limit} = req.query // Si no se mandó, tendrá el valor 'undefined'
+    let user // Si no tiene una sesión activa, valdrá 'undefined'
+    if (req.session.email)
+    {
+        user = await userModel.findOne({email: req.session.email})
+        user = user.first_name
+    }
+
+    console.log("Enviando productos al cliente...")
+
+    const my_products = await productModel.find().lean()
+
+    if (my_products.length === 0 ) // Caso de que la DB esté vacía
+        res.status(200).render('templates/error', {error_description: "Sin productos por ahora"})
+    
+    else 
+
+    {
+        // En el caso de que la DB no esté vacía, devuelvo la cantidad solicitada
+        // O todos los productos en caso que no esté definido el query param limit
+        let cantidad_productos_exhibidos
+        !limit? cantidad_productos_exhibidos = my_products.length: cantidad_productos_exhibidos = limit
+
+        // Caso de que envíen un límite, pero no sea un número
+        isNaN(cantidad_productos_exhibidos) || cantidad_productos_exhibidos < 0? res.status(400).render('templates/error', {error_description: "El límite debe ser numérico y mayor a cero"}): (
+            (cantidad_productos_exhibidos > my_products.length) && (cantidad_productos_exhibidos = my_products.length),
+            res.status(200).render('templates/home', {title: 'Mis Productos', subtitle: `Cantidad de productos exhibidos: ${cantidad_productos_exhibidos}`, products: my_products.splice(0, cantidad_productos_exhibidos), user: user}))
+    }
+
+    console.log("Productos enviados!")
+} )
+
+// LECTURA DE TODOS LOS PRODUCTOS EN MODO PAGINATION
+productsRouter.get('/pagination', async (req, res) => {
     
     // Query params que podría recibir. Si no se mandan, tendrán el valor 'undefined'
     let {limit} = req.query 
