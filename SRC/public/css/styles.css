@@ -3,8 +3,9 @@ body {
     color: white;
 }
 
-.footer_Image, .main_subtitle, .main_title, .navBar_Image{
+.footer_Image, .main_text, .main_subtitle, .main_image, .main_title, .navBar_Image{
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .footer_Image_JPG, .navBar_Image_JPG {
@@ -19,4 +20,8 @@ body {
 .card_container, .error_section, .error_image {
     display: flex;
     justify-content: center;
+}
+
+.registration_image {
+    height: 180px;
 }

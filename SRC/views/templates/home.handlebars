@@ -1,11 +1,32 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 text-center d-flex flex-row justify-content-end">
-            {{#if user}}
-            <h3 style="font-style: italic;">Hola {{user}}</h3>
-            {{else}}
-            <h3 style="font-style: italic;">Usuario sin loguear</h3>
-            {{/if}}
+
+            <div class="d-flex flex-column">
+                <div>
+                    {{#if user}}
+                        <h3 style="font-style: italic;">Hola {{user}}</h3>
+                    {{else}}
+                        <h3 style="font-style: italic;">Usuario sin loguear</h3>
+                    {{/if}}
+                </div>
+
+                <div>
+                    {{#if admin_user}}
+                        <h3 style="font-style: italic;">Usuario Admin</h3>
+                    {{/if}}
+
+                    {{#if standard_user}}
+                        <h4 style="font-style: italic;">Usuario Estándar</h4>
+                    {{/if}}
+                </div>
+                
+                <div>
+                    {{#if user}}
+                        <button type="button" class="btn btn-secondary"><a href="http://localhost:8080/sessions/logout">LOGOUT</a></button>
+                    {{/if}}
+                </div>
+            </div>
         </div>
     </div>
 </div>

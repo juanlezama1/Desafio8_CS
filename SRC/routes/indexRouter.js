@@ -14,4 +14,9 @@ indexRouter.use('/carts', cartsRouter, express.static(__dirname + '/public'))
 indexRouter.use('/cookies', cookiesRouter, express.static(__dirname + '/public'))
 indexRouter.use('/sessions', sessionsRouter, express.static(__dirname + '/public'))
 
+indexRouter.get('/', async (req, res) => {
+
+    res.redirect('/sessions/login')
+})
+
 export default indexRouter

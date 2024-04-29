@@ -14,7 +14,7 @@ sessionsRouter.post('/login', async (req, res) => {
     try {
         const {email, password} = req.body
         const user = await userModel.findOne({email: email})
-        user && (user.password = password)? 
+        user && (user.password == password)? 
         (
             req.session.email = email,
             console.log("Logueo de usuario exitoso!"),
@@ -57,6 +57,52 @@ sessionsRouter.post('/register', async (req, res) => {
 
     {
         console.log("Error al registrar usuario!")
+    }
+})
+
+// Ruta para registro de un usuario por GET (visual)
+sessionsRouter.get('/register', async (req, res) => {
+    try {
+
+        res.status(200).render('templates/user_registration')
+        console.log("Usuario por registrarse...")
+    }
+
+    catch (error)
+
+    {
+        res.status(500).send("Error al mostrar la vista de registro")
+        console.log("Error al mostrar la vista de registro!")
+    }
+})
+
+// Ruta para registro de un usuario por GET (visual)
+sessionsRouter.get('/login', async (req, res) => {
+    try {
+
+        res.status(200).render('templates/user_login')
+        console.log("Usuario por loguearse...")
+    }
+
+    catch (error)
+
+    {
+        res.status(500).send("Error al mostrar la vista de logueo")
+        console.log("Error al mostrar la vista de logueo!")
+    }
+})
+
+sessionsRouter.get('/logout', async (req, res) => {
+    try {
+        req.session.destroy()
+        res.status(200).send("Sesión finalizada con éxito!")
+    }
+
+    catch (error)
+
+    {
+        res.status(500).send("Error al finalizar sesión!")
+        console.log("Error al finalizar la sesión del usuario")
     }
 })
 
