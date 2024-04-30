@@ -25,3 +25,7 @@ body {
 .registration_image {
     height: 180px;
 }
+
+.register_button {
+    margin-bottom: 15px
+}

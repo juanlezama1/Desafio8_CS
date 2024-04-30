@@ -3,18 +3,12 @@ import { userModel } from '../models/users.js'
 
 const sessionsRouter = Router ()
 
-// Ruta ejemplo para cargar una sesión activa
-sessionsRouter.get('/', (req, res) => {
-    req.session.counter? (req.session.counter++, res.send(`Ingresaste a la página ${req.session.counter} veces`)):
-    (req.session.counter = 1, res.send("Primer ingreso a la página!"))
-})
-
 // Ruta para cargar una sesión activa en caso de login exitoso.
 sessionsRouter.post('/login', async (req, res) => {
     try {
         const {email, password} = req.body
         const user = await userModel.findOne({email: email})
-        user && (user.password == password)? 
+        user && (user.password === password)? 
         (
             req.session.email = email,
             console.log("Logueo de usuario exitoso!"),
@@ -62,34 +56,16 @@ sessionsRouter.post('/register', async (req, res) => {
 
 // Ruta para registro de un usuario por GET (visual)
 sessionsRouter.get('/register', async (req, res) => {
-    try {
-
+    
         res.status(200).render('templates/user_registration')
         console.log("Usuario por registrarse...")
-    }
-
-    catch (error)
-
-    {
-        res.status(500).send("Error al mostrar la vista de registro")
-        console.log("Error al mostrar la vista de registro!")
-    }
 })
 
 // Ruta para registro de un usuario por GET (visual)
 sessionsRouter.get('/login', async (req, res) => {
-    try {
 
         res.status(200).render('templates/user_login')
         console.log("Usuario por loguearse...")
-    }
-
-    catch (error)
-
-    {
-        res.status(500).send("Error al mostrar la vista de logueo")
-        console.log("Error al mostrar la vista de logueo!")
-    }
 })
 
 sessionsRouter.get('/logout', async (req, res) => {
